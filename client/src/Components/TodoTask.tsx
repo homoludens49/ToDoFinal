@@ -2,12 +2,14 @@ import React from "react";
 import { ITask } from "../interfaces";
 interface Props {
   task: ITask;
-  completeTask(taskNameToDelete: string): void;
+  deleteTask(taskNameToDelete: string): void;
+  completeTask(task: ITask): void;
+  editTask(taskNameToEdit: string): void;
 }
 
-const TodoTask = ({ task, completeTask }: Props) => {
+const TodoTask = ({ task, deleteTask, completeTask, editTask }: Props) => {
   return (
-    <div className="task">
+    <div className="task" id={task.complete == true ? "New" : "Completed"} >
       <div className="content">
         <span>
           <small>Created By: </small>
@@ -23,9 +25,26 @@ const TodoTask = ({ task, completeTask }: Props) => {
         </span>
       </div>
       <button
+        className="complete"
+        onClick={() => {
+          completeTask(task);
+        }}
+      >
+        Complete Task
+      </button>
+      <button
+        className="edit"
+        onClick={() => {
+          console.log(task.taskName)
+          //editTask(task.taskName);
+        }}
+      >
+        Edit Task
+      </button>
+      <button
         className="delete"
         onClick={() => {
-          completeTask(task.taskName);
+          deleteTask(task.taskName);
         }}
       >
         Delete Task

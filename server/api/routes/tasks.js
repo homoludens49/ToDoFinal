@@ -6,45 +6,37 @@ const Task = require("../../models/Task");
 //@route   GET api
 //@access  Public
 router.get("/", async (req, res) => {
-    try {
-        const tasks = await Task.find();
-        res.json(tasks);
-      } catch (err) {
-        console.error(err.message);
-        res.status(500).send("Server Error");
-      }
-  });
-  
+  try {
+    const tasks = await Task.find();
+    res.json(tasks);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
 //@route   POST api/task
 //@desc    Create or update task
 
 router.post("/", async (req, res) => {
-    
-    const {
-        user,
-        taskName,
-        deadline,
-        status,
-        date
-    } = req.body;
-    //Build task object
-    const taskFields = {};
-    if (user) taskFields.user = user;
-    if (taskName) taskFields.taskName = taskName;
-    if (deadline) taskFields.deadline = deadline;
-    if (status) taskFields.status = status;
-    if (date) taskFields.date = date;
-    try{
-      //Create
-      task = new Task(taskFields);
-      await task.save();
-      return res.json(task);
-    } catch (err) {
-      console.error(err.message);
-      res.status(500).send("Server Error");
-    }
-    res.send(taskFields);
-  });
+  const { user, taskName, deadline, complete, date } = req.body;
+  //Build task object
+  const taskFields = {};
+  taskFields.user = user;
+  taskFields.taskName = taskName;
+  taskFields.deadline = deadline;
+  taskFields.complete = complete;
+  taskFields.date = date;
+  try {
+    //Create
+    task = new Task(taskFields);
+    await task.save();
+    return res.json(task);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
 
 //@route   DELETE api/task
 //@desc    DELETE  task

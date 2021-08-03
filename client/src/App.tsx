@@ -42,7 +42,6 @@ const App: FC = () => {
   const [deadline, setDeadline] = useState<number>(0);
   const [todoList, setTodoList] = useState<ITask[]>([]);
 
-
   useEffect(() => {
     getTasks();
   }, []);
@@ -83,7 +82,7 @@ const App: FC = () => {
       user: name,
       taskName: task,
       deadline: deadline,
-      status: "New",
+      complete: false,
       date: new Date(),
     };
     setTodoList([...todoList, newTask]);
@@ -93,7 +92,26 @@ const App: FC = () => {
     setDeadline(0);
   };
 
-  const completeTask = async (taskNameToDelete: string) => {
+  const editTask = async (taskNameToEdit: string) => {
+    console.log(taskNameToEdit);
+    // await axios.delete(`http://localhost:5000/tasks/${taskNameToEdit}`);
+    // setTodoList(todoList.filter((task) => task.taskName != taskNameToEdit));
+  };
+
+  const completeTask = (task: ITask) => {
+    const updatedArray = [...todoList];
+    for (let i in updatedArray) {
+      if (updatedArray[i].taskName == task.taskName) {
+        updatedArray[i].complete = !updatedArray[i].complete;
+        return updatedArray;
+      }
+      setTodoList(updatedArray);
+    }
+  };
+
+  console.log(todoList);
+
+  const deleteTask = async (taskNameToDelete: string) => {
     await axios.delete(`http://localhost:5000/tasks/${taskNameToDelete}`);
     setTodoList(todoList.filter((task) => task.taskName != taskNameToDelete));
   };
@@ -160,7 +178,15 @@ const App: FC = () => {
       </div>
       <div className="todoList">
         {todoList.map((task: ITask, key: number) => {
-          return <TodoTask key={key} task={task} completeTask={completeTask} />;
+          return (
+            <TodoTask
+              key={key}
+              task={task}
+              deleteTask={deleteTask}
+              completeTask={completeTask}
+              editTask={editTask}
+            />
+          );
         })}
       </div>
     </div>

@@ -2,7 +2,7 @@ export interface ITask {
   user: string;
   taskName: string;
   deadline: number;
-  status: string;
+  complete: boolean;
   date: Date;
 }
 

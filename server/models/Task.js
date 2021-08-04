@@ -8,7 +8,7 @@ const TaskSchema = new mongoose.Schema({
     taskName: {
         type: String,
         required: true,
-        unique:true,
+        unique:false,
     },
     deadline:{
         type: String,

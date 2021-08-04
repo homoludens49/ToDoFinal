@@ -38,9 +38,20 @@ router.post("/", async (req, res) => {
   }
 });
 
+//@route   PUT api/task
+//@desc    PUT  task
+router.put(`/:name`, async (req, res) => {
+  try {
+    //Update task
+    await Task.findOneAndUpdate({ taskName: req.params.name },{ complete: req.body.complete });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
 //@route   DELETE api/task
 //@desc    DELETE  task
-
 router.delete(`/:name`, async (req, res) => {
   try {
     //Remove task

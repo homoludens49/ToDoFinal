@@ -55,7 +55,11 @@ const App: FC = () => {
       setTodoList([...todoList, data]);
     });
   });
-
+  useEffect(() => {
+    socket.on("display_updatedTodo", (data:ITask[]) => {
+      setTodoList(data);
+    });
+  });
   const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
     event.target.name === "task"
       ? setTask(event.target.value)
@@ -103,9 +107,10 @@ const App: FC = () => {
     for (let i in updatedArray) {
       if (updatedArray[i].taskName == task.taskName) {
         updatedArray[i].complete = !updatedArray[i].complete;
-        return updatedArray;
-      }
-      setTodoList(updatedArray);
+        axios.put(`http://localhost:5000/tasks/${updatedArray[i].taskName}`, updatedArray[i])
+        socket.emit("update_todo",updatedArray, room);
+        return setTodoList(updatedArray);
+      }   
     }
   };
 

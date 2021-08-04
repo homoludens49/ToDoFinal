@@ -37,7 +37,10 @@ io.on("connection", (socket) => {
   socket.on("create_todo", (data,room)=> {
     socket.to(room).emit('display_todo', data)
   })
-
+  socket.on("update_todo", (data,room)=> {
+    console.log(data,room)
+    socket.to(room).emit('display_updatedTodo', data)
+  })
   socket.on('disconnect', ()=>{
       console.log('USER DISCONNECTED')
   })

@@ -9,17 +9,17 @@ interface Props {
 
 const TodoTask = ({ task, deleteTask, completeTask, editTask }: Props) => {
   return (
-    <div className="task" id={task.complete == true ? "New" : "Completed"} >
+     <div className="task" >
       <div className="content">
-        <span>
+        <span style={{textDecoration: task.complete? "line-through": "none"}}>
           <small>Created By: </small>
           {task.user}
         </span>
-        <span>
+        <span style={{textDecoration: task.complete? "line-through": "none"}}>
           <small>Task: </small>
           {task.taskName}
         </span>
-        <span>
+        <span style={{textDecoration: task.complete? "line-through": "none"}}>
           <small>Deadline in Days: </small>
           {task.deadline}
         </span>

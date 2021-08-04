@@ -2,7 +2,7 @@
 
 assignment
 
- <!-- Dear Reviewer,
+ Dear Reviewer,
 
  Hope this readme finds you well. 
  I want to be as transparent as possible.
@@ -13,4 +13,4 @@ assignment
  Taking this in to account, i hope you will enjoy reviewing my code, and any feedback would be highly appreciated.
 
  Best regards, 
- Pjotrs -->
+ Pjotrs

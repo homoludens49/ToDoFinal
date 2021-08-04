@@ -85,14 +85,7 @@ body {
   background-color: rgba(104, 104, 104, 0.733);
 }
 
-.edit {
-  flex: 20%;
-  height: 100%;
-  border: none;
-  background-color:darkorange;
-  color: white;
-  cursor: pointer;
-}
+
 .complete {
   flex: 20%;
   height: 100%;

@@ -5,10 +5,9 @@ interface Props {
   hide: boolean;
   deleteTask(task: ITask): void;
   completeTask(task: ITask): void;
-  editTask(taskNameToEdit: string): void;
 }
 
-const TodoTask = ({ task,hide, deleteTask, completeTask, editTask }: Props) => {
+const TodoTask = ({ task,hide, deleteTask, completeTask }: Props) => {
 
   return (
      <div className="task" style={{visibility: hide && task.complete  ? "hidden":"visible" }} >
@@ -33,15 +32,6 @@ const TodoTask = ({ task,hide, deleteTask, completeTask, editTask }: Props) => {
         }}
       >
         Complete Task
-      </button>
-      <button
-        className="edit"
-        onClick={() => {
-          console.log(task.taskName)
-          //editTask(task.taskName);
-        }}
-      >
-        Edit Task
       </button>
       <button
         className="delete"

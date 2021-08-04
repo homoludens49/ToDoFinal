@@ -8,8 +8,8 @@ import axios from "axios";
 
 //creat socket connection
 let socket: any;
-// const URL:stri = "https://todoassignmentpjotrssakovs.herokuapp.com";
-const URL: string = "http://localhost:1337";
+const URL: string = "https://todo-assignment-app.herokuapp.com";
+// const URL: string = "http://localhost:1337";
 
 const connectionOptions: object = {
   transports: ["websocket"],
@@ -41,8 +41,10 @@ const App: FC = () => {
   }, []);
   //get Todos from DB on init
   const getTasks = async () => {
-    //const res = await axios.get("https://todoassignmentpjotrssakovs.herokuapp.com/tasks");
-    const res = await axios.get("http://localhost:1337/tasks");
+    const res = await axios.get(
+      "https://todo-assignment-app.herokuapp.com/tasks"
+    );
+    // const res = await axios.get("http://localhost:1337/tasks");
     setTodoList(res.data);
   };
   //sockets to display changes in Todos
@@ -77,20 +79,17 @@ const App: FC = () => {
       date: new Date(),
     };
     setTodoList([...todoList, newTask]);
-    //await axios.post("https://todoassignmentpjotrssakovs.herokuapp.com/tasks", newTask);
     //add todo to DB
-    axios.post("http://localhost:1337/tasks", newTask);
+    axios.post(
+      "https://todo-assignment-app.herokuapp.com/tasks",
+      newTask
+    );
+
+    //axios.post("http://localhost:1337/tasks", newTask);
     //reflect todo for others through socket
     socket.emit("create_todo", newTask, room);
     setTask("");
     setDeadline(0);
-  };
-
-  const editTask = async (taskNameToEdit: string) => {
-    console.log(taskNameToEdit);
-    // await axios.delete(`https://todoassignmentpjotrssakovs.herokuapp.com/tasks/${taskNameToEdit}`);
-    // setTodoList(todoList.filter((task) => task.taskName != taskNameToEdit));
-    //this is
   };
   //Toogle complete task
   const completeTask = (task: ITask) => {
@@ -100,9 +99,13 @@ const App: FC = () => {
         updatedArray[i].complete = !updatedArray[i].complete;
         //update todo in DB
         axios.put(
-          `http://localhost:1337/tasks/${updatedArray[i].taskName}`,
+          `https://todo-assignment-app.herokuapp.com/tasks/${updatedArray[i].taskName}`,
           updatedArray[i]
         );
+        // axios.put(
+        //   `http://localhost:1337/tasks/${updatedArray[i].taskName}`,
+        //   updatedArray[i]
+        // );
         //reflect todo deletion for others through socket
         socket.emit("update_todo", updatedArray, room);
         return setTodoList(updatedArray);
@@ -111,10 +114,13 @@ const App: FC = () => {
   };
   //handle task deletion
   const deleteTask = (task: ITask) => {
-    const updatedArray = todoList.filter((ts) => ts.taskName !== task.taskName);
-    //axios.delete(`https://todoassignmentpjotrssakovs.herokuapp.com/tasks/${task.taskName}`);
     //delete todo from DB
-    axios.delete(`http://localhost:1337/tasks/${task.taskName}`);
+    const updatedArray = todoList.filter((ts) => ts.taskName !== task.taskName);
+    axios.delete(
+      `https://todo-assignment-app.herokuapp.com/tasks/${task.taskName}`
+    );
+
+    //axios.delete(`http://localhost:1337/tasks/${task.taskName}`);
     //reflect todo deletion for others through socket
     socket.emit("update_todo", updatedArray, room);
     setTodoList(updatedArray);
@@ -180,7 +186,6 @@ const App: FC = () => {
                 hide={hide}
                 deleteTask={deleteTask}
                 completeTask={completeTask}
-                editTask={editTask}
               />
             );
           })}

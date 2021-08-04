@@ -7,8 +7,8 @@ connectDB();
 
 app.use(
   cors({
-    //origin: "https://competent-yalow-725f0b.netlify.app/",
-    origin: "http://localhost:3000",
+    origin: "https://loving-bell-711afe.netlify.app",
+    //origin: "http://localhost:3000",
     credentials: true,
   })
 );

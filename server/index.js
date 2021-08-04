@@ -26,7 +26,6 @@ io.on("connection", (socket) => {
   socket.on('join_room', (data)=> {
     socket.join(data);
     console.log(`User joined Room: ${data}`)
-    console.log(`Utest`)
   })
 
 
@@ -41,6 +40,7 @@ io.on("connection", (socket) => {
     console.log(data,room)
     socket.to(room).emit('display_updatedTodo', data)
   })
+
   socket.on('disconnect', ()=>{
       console.log('USER DISCONNECTED')
   })

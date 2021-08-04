@@ -3,7 +3,7 @@ import { ITask } from "../interfaces";
 interface Props {
   task: ITask;
   hide: boolean;
-  deleteTask(taskNameToDelete: string): void;
+  deleteTask(task: ITask): void;
   completeTask(task: ITask): void;
   editTask(taskNameToEdit: string): void;
 }
@@ -46,7 +46,7 @@ const TodoTask = ({ task,hide, deleteTask, completeTask, editTask }: Props) => {
       <button
         className="delete"
         onClick={() => {
-          deleteTask(task.taskName);
+          deleteTask(task);
         }}
       >
         Delete Task

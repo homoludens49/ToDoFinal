@@ -61,6 +61,7 @@ const App: FC = () => {
       setTodoList(data);
     });
   });
+
   const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
     event.target.name === "task"
       ? setTask(event.target.value)
@@ -101,12 +102,13 @@ const App: FC = () => {
     console.log(taskNameToEdit);
     // await axios.delete(`http://localhost:5000/tasks/${taskNameToEdit}`);
     // setTodoList(todoList.filter((task) => task.taskName != taskNameToEdit));
+    //this is
   };
 
   const completeTask = (task: ITask) => {
     const updatedArray = [...todoList];
     for (let i in updatedArray) {
-      if (updatedArray[i].taskName == task.taskName) {
+      if (updatedArray[i].taskName === task.taskName) {
         updatedArray[i].complete = !updatedArray[i].complete;
         axios.put(
           `http://localhost:5000/tasks/${updatedArray[i].taskName}`,
@@ -118,10 +120,11 @@ const App: FC = () => {
     }
   };
 
-
-  const deleteTask = async (taskNameToDelete: string) => {
-    await axios.delete(`http://localhost:5000/tasks/${taskNameToDelete}`);
-    setTodoList(todoList.filter((task) => task.taskName != taskNameToDelete));
+  const deleteTask = (task: ITask) => {
+    const updatedArray = todoList.filter((ts) => ts.taskName !== task.taskName);
+    axios.delete(`http://localhost:5000/tasks/${task.taskName}`);
+    socket.emit("update_todo", updatedArray, room);
+    setTodoList(updatedArray);
   };
 
   return (
@@ -166,7 +169,7 @@ const App: FC = () => {
             return (
               <div
                 className="messageContainer"
-                id={val.name == name ? "You" : "Other"}
+                id={val.name === name ? "You" : "Other"}
               >
                 <div className="individualMessage">
                   {val.name}: {val.message}

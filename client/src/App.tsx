@@ -8,10 +8,10 @@ import axios from "axios";
 
 //creat socket connection
 let socket: any;
-// const URL = "https://todoassignmentpjotrssakovs.herokuapp.com";
-const URL = "http://localhost:1337";
+// const URL:stri = "https://todoassignmentpjotrssakovs.herokuapp.com";
+const URL: string = "http://localhost:1337";
 
-let connectionOptions: any = {
+const connectionOptions: object = {
   transports: ["websocket"],
 };
 
@@ -67,7 +67,7 @@ const App: FC = () => {
   };
 
   //add Todo
-  const addTask = async () => {
+  const addTask = (): void => {
     //create new ITask
     const newTask = {
       user: name,
@@ -79,9 +79,9 @@ const App: FC = () => {
     setTodoList([...todoList, newTask]);
     //await axios.post("https://todoassignmentpjotrssakovs.herokuapp.com/tasks", newTask);
     //add todo to DB
-    await axios.post("http://localhost:1337/tasks", newTask);
+    axios.post("http://localhost:1337/tasks", newTask);
     //reflect todo for others through socket
-    await socket.emit("create_todo", newTask, room);
+    socket.emit("create_todo", newTask, room);
     setTask("");
     setDeadline(0);
   };

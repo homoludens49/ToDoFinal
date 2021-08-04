@@ -2,7 +2,7 @@ const express = require("express");
 const socket = require("socket.io");
 const app = express();
 const cors = require("cors");
-const connectDB = require("./config/db");
+const connectDB = require("./config/db.js");
 connectDB();
 
 app.use(
@@ -15,7 +15,7 @@ app.use(
 app.use(express.json());
 
 //Routes
-app.use("/tasks", require("./api/routes/tasks"));
+app.use("/tasks", require("./api/routes/tasks.js"));
 
 const port = process.env.PORT || 1337;
 const server = app.listen(port, () => console.log(`listening on ${port}`));

@@ -12,7 +12,7 @@ const TodoTask = ({ task,hide, deleteTask, completeTask, editTask }: Props) => {
 
   return (
      <div className="task" style={{visibility: hide && task.complete  ? "hidden":"visible" }} >
-      <div className="content">
+      <div className="content" >
         <span style={{textDecoration: task.complete? "line-through": "none"}}>
           <small>Created By: </small>
           {task.user}

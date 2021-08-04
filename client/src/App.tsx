@@ -40,6 +40,7 @@ const App: FC = () => {
   //Todo
   const [task, setTask] = useState<string>("");
   const [deadline, setDeadline] = useState<number>(0);
+  const [hide, setHide] = useState<boolean>(false);
   const [todoList, setTodoList] = useState<ITask[]>([]);
 
   useEffect(() => {
@@ -56,7 +57,7 @@ const App: FC = () => {
     });
   });
   useEffect(() => {
-    socket.on("display_updatedTodo", (data:ITask[]) => {
+    socket.on("display_updatedTodo", (data: ITask[]) => {
       setTodoList(data);
     });
   });
@@ -107,14 +108,16 @@ const App: FC = () => {
     for (let i in updatedArray) {
       if (updatedArray[i].taskName == task.taskName) {
         updatedArray[i].complete = !updatedArray[i].complete;
-        axios.put(`http://localhost:5000/tasks/${updatedArray[i].taskName}`, updatedArray[i])
-        socket.emit("update_todo",updatedArray, room);
+        axios.put(
+          `http://localhost:5000/tasks/${updatedArray[i].taskName}`,
+          updatedArray[i]
+        );
+        socket.emit("update_todo", updatedArray, room);
         return setTodoList(updatedArray);
-      }   
+      }
     }
   };
 
-  console.log(todoList);
 
   const deleteTask = async (taskNameToDelete: string) => {
     await axios.delete(`http://localhost:5000/tasks/${taskNameToDelete}`);
@@ -182,17 +185,27 @@ const App: FC = () => {
         </div>
       </div>
       <div className="todoList">
-        {todoList.map((task: ITask, key: number) => {
-          return (
-            <TodoTask
-              key={key}
-              task={task}
-              deleteTask={deleteTask}
-              completeTask={completeTask}
-              editTask={editTask}
-            />
-          );
-        })}
+        <button onClick={() => setHide(!hide)}>Hide completed Tasks</button>
+        {todoList
+          .sort(function (a, b) {
+            let keyA = a.complete;
+            let keyB = b.complete;
+            if (keyA < keyB) return -1;
+            if (keyA > keyB) return 1;
+            return 0;
+          })
+          .map((task: ITask, key: number) => {
+            return (
+              <TodoTask
+                key={key}
+                task={task}
+                hide={hide}
+                deleteTask={deleteTask}
+                completeTask={completeTask}
+                editTask={editTask}
+              />
+            );
+          })}
       </div>
     </div>
   );

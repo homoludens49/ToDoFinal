@@ -2,14 +2,16 @@ import React from "react";
 import { ITask } from "../interfaces";
 interface Props {
   task: ITask;
+  hide: boolean;
   deleteTask(taskNameToDelete: string): void;
   completeTask(task: ITask): void;
   editTask(taskNameToEdit: string): void;
 }
 
-const TodoTask = ({ task, deleteTask, completeTask, editTask }: Props) => {
+const TodoTask = ({ task,hide, deleteTask, completeTask, editTask }: Props) => {
+
   return (
-     <div className="task" >
+     <div className="task" style={{visibility: hide && task.complete  ? "hidden":"visible" }} >
       <div className="content">
         <span style={{textDecoration: task.complete? "line-through": "none"}}>
           <small>Created By: </small>

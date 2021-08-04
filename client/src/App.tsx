@@ -7,7 +7,8 @@ import { io } from "socket.io-client";
 import axios from "axios";
 
 let socket: any;
-const URL = "http://localhost:5000";
+// const URL = "https://todoassignmentpjotrssakovs.herokuapp.com";
+const URL = "http://localhost:1337";
 
 let connectionOptions: any = {
   transports: ["websocket"],
@@ -47,7 +48,8 @@ const App: FC = () => {
     getTasks();
   }, []);
   const getTasks = async () => {
-    const res = await axios.get("http://localhost:5000/tasks");
+    //const res = await axios.get("https://todoassignmentpjotrssakovs.herokuapp.com/tasks");
+    const res = await axios.get("http://localhost:1337/tasks");
     setTodoList(res.data);
   };
 
@@ -92,7 +94,8 @@ const App: FC = () => {
       date: new Date(),
     };
     setTodoList([...todoList, newTask]);
-    await axios.post("http://localhost:5000/tasks", newTask);
+    //await axios.post("https://todoassignmentpjotrssakovs.herokuapp.com/tasks", newTask);
+    await axios.post("http://localhost:1337/tasks", newTask);
     await socket.emit("create_todo", newTask, room);
     setTask("");
     setDeadline(0);
@@ -100,7 +103,7 @@ const App: FC = () => {
 
   const editTask = async (taskNameToEdit: string) => {
     console.log(taskNameToEdit);
-    // await axios.delete(`http://localhost:5000/tasks/${taskNameToEdit}`);
+    // await axios.delete(`https://todoassignmentpjotrssakovs.herokuapp.com/tasks/${taskNameToEdit}`);
     // setTodoList(todoList.filter((task) => task.taskName != taskNameToEdit));
     //this is
   };
@@ -110,8 +113,12 @@ const App: FC = () => {
     for (let i in updatedArray) {
       if (updatedArray[i].taskName === task.taskName) {
         updatedArray[i].complete = !updatedArray[i].complete;
+        // axios.put(
+        //   `https://todoassignmentpjotrssakovs.herokuapp.com/tasks/${updatedArray[i].taskName}`,
+        //   updatedArray[i]
+        // );
         axios.put(
-          `http://localhost:5000/tasks/${updatedArray[i].taskName}`,
+          `http://localhost:1337/tasks/${updatedArray[i].taskName}`,
           updatedArray[i]
         );
         socket.emit("update_todo", updatedArray, room);
@@ -122,7 +129,8 @@ const App: FC = () => {
 
   const deleteTask = (task: ITask) => {
     const updatedArray = todoList.filter((ts) => ts.taskName !== task.taskName);
-    axios.delete(`http://localhost:5000/tasks/${task.taskName}`);
+    //axios.delete(`https://todoassignmentpjotrssakovs.herokuapp.com/tasks/${task.taskName}`);
+    axios.delete(`http://localhost:1337/tasks/${task.taskName}`);
     socket.emit("update_todo", updatedArray, room);
     setTodoList(updatedArray);
   };
